@@ -27,7 +27,7 @@ class User(Base):
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     gender: Mapped[str]= mapped_column(String, nullable=False)
     valid_till: Mapped[date] = mapped_column(Date, nullable=False)
-    batch_name: Mapped[str] = mapped_column(ForeignKey("batches.batch_name"), nullable=False)
+    batch_name: Mapped[str] = mapped_column(ForeignKey("batches.batch_name", onupdate="CASCADE"), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, server_default=text("CURRENT_TIMESTAMP")
     )

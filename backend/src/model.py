@@ -8,8 +8,6 @@ class FormData(BaseModel):
     gender: str
     batch_name: str
 
-class QueryData(BaseModel):
-    phone: str
 
 class Payments(BaseModel):
     phone: str

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { UserPlus, Users } from "lucide-react";
-import { use } from "react";
 
 function App() {
   // State for registration form
@@ -17,7 +16,11 @@ function App() {
   const [responseData, setResponseData] = useState({});
   const [memberPhone, setMemberPhone] = useState("");
   const [needForPayment, setNeedForPayment] = useState(false);
-  const [showResponse, setShowResponse] = useState(false); // ✅ Controls when to show response
+  const [showResponse, setShowResponse] = useState(false);
+
+  // Loading states for buttons
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
+  const [isLoadingCheck, setIsLoadingCheck] = useState(false);
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -25,72 +28,63 @@ function App() {
   };
 
   // New Registration Submission
-  const handleNewRegistration = async (e) => {
+  const CompletePayment = async (e) => {
     e.preventDefault();
+    setIsLoadingRegister(true); // Start loading
     try {
       console.log("Registering user:", formData);
-      await axios.post("http://127.0.0.1:8000/form/update", {...formData, age: parseInt(formData.age) });
+      const response = await axios.post("http://localhost:8000/form/update", {
+        ...formData,
+        age: parseInt(formData.age),
+      });
+      alert(response.data.message);
     } catch (error) {
       console.error("Registration failed:", error);
+    } finally {
+      setIsLoadingRegister(false); // Stop loading
     }
   };
 
   // Check Existing Member
   const handleMemberCheck = async (e) => {
     e.preventDefault();
+    setIsLoadingCheck(true); // Start loading
     try {
-        console.log("Checking membership for:", memberPhone);
-        
-        const response = await axios.get(`http://127.0.0.1:8000/form/query?phone=${memberPhone}`);
-        setResponseData(response.data);
-        setShowResponse(true); // ✅ Show response only after checking
+      console.log("Checking membership for:", memberPhone);
+      const response = await axios.get(`http://localhost:8000/form/query?phone=${memberPhone}`);
+      setResponseData(response.data);
+      setShowResponse(true);
 
-        // Convert valid_till to Date for comparison
-        const validTillDate = new Date(response.data.valid_till);
-        console.log("Valid till:", validTillDate);
+      const validTillDate = new Date(response.data.valid_till);
+      console.log("Valid till:", validTillDate);
 
-        if (validTillDate < new Date()) {
-            setNeedForPayment(true);
-        } else {
-            setNeedForPayment(false);
-        }
+      if (validTillDate < new Date()) {
+        setNeedForPayment(true);
+      } else {
+        setNeedForPayment(false);
+      }
     } catch (error) {
-        console.error("Error checking membership:", error);
-        setShowResponse(false); // ✅ Hide response if there's an error
+      console.error("Error checking membership:", error);
+      setShowResponse(false);
+    } finally {
+      setIsLoadingCheck(false); // Stop loading
     }
-};
-
-// Ensure previous data is loaded only when `needForPayment` is true
-useEffect(() => {
-    if (needForPayment) {
-        loadPreviousData();
-    }
-}, [needForPayment]);
-
-
-  //fill response data into form
-  const loadPreviousData = () => {
-    setFormData({ ...formData, name: responseData.name, phone: memberPhone, age: responseData.age, gender: responseData.gender, batch_name: responseData.batch_name });
   };
 
-  useEffect(() => {
-    loadPreviousData();
-  }, [needForPayment]);
   return (
-
     <div className="container">
       <div className="content">
-        <h1 className="title">Zen Yoga Studio</h1>
+        <h1 className="title">Flex Yoga Studio</h1>
 
         <div className="grid">
           {/* New Registration Form */}
           <div className="card">
             <div className="card-header">
               <UserPlus className="icon" />
-              <h2 className="card-title">New Registration</h2>
+              <h2 className="card-title">{needForPayment?"Renew Your Membership":"New Registration"}</h2>
             </div>
 
-            <form onSubmit={handleNewRegistration} className="form">
+            <form onSubmit={CompletePayment} className="form">
               <div className="form-group">
                 <label className="label">Name</label>
                 <input type="text" name="name" required value={formData.name} onChange={handleChange} className="input" />
@@ -100,7 +94,6 @@ useEffect(() => {
                 <label className="label">Phone Number</label>
                 <input type="tel" name="phone" required pattern="[0-9]{10}" value={formData.phone} onChange={handleChange} className="input" placeholder="10 digit number" />
               </div>
-
 
               <div className="form-group">
                 <label className="label">Age</label>
@@ -127,7 +120,9 @@ useEffect(() => {
                 </select>
               </div>
 
-              <button type="submit" className="button">Proceed to Payment</button>
+              <button type="submit" className="button" disabled={isLoadingRegister}>
+                {isLoadingRegister ? "Processing..." : "Proceed to Payment"}
+              </button>
             </form>
           </div>
 
@@ -144,10 +139,11 @@ useEffect(() => {
                 <input type="tel" required pattern="[0-9]{10}" value={memberPhone} onChange={(e) => setMemberPhone(e.target.value)} className="input" placeholder="Enter your registered phone number" />
               </div>
 
-              <button type="submit" className="button">Check My Plan</button>
+              <button type="submit" className="button" disabled={isLoadingCheck}>
+                {isLoadingCheck ? "Processing..." : "Check My Plan"}
+              </button>
             </form>
 
-            {/* Show response only after checking */}
             {showResponse && (
               <div className="member-details">
                 {responseData.name ? (
