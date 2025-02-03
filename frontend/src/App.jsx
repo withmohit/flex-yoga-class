@@ -33,7 +33,7 @@ function App() {
     setIsLoadingRegister(true); // Start loading
     try {
       console.log("Registering user:", formData);
-      const response = await axios.post("http://localhost:8000/form/update", {
+      const response = await axios.post("https://flex-yoga-class.onrender.com/form/update", {
         ...formData,
         age: parseInt(formData.age),
       });
@@ -51,7 +51,7 @@ function App() {
     setIsLoadingCheck(true); // Start loading
     try {
       console.log("Checking membership for:", memberPhone);
-      const response = await axios.get(`http://localhost:8000/form/query?phone=${memberPhone}`);
+      const response = await axios.get(`https://flex-yoga-class.onrender.com/form/query?phone=${memberPhone}`);
       setResponseData(response.data);
       setShowResponse(true);
 
@@ -165,7 +165,7 @@ function App() {
                   <>
                     <p>Hi, {responseData.name}</p>
                     {needForPayment ? (
-                      <label className="label">Membership Expired on {responseData.validTill}. Please make a new payment.</label>
+                      <label className="label">Membership Expired on {responseData.valid_till}. Please make a new payment.</label>
                     ) : (
                       <>
                         {responseData.batch_name && <label className="label">Current Batch: {responseData.batch_name}</label>}
