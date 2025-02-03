@@ -71,6 +71,21 @@ function App() {
     }
   };
 
+  // Load previous data
+  const loadPreviousData = async () => {
+    setFormData({
+      ...formData,
+      name: responseData.name,
+      age: responseData.age,
+      phone: memberPhone,
+      gender: responseData.gender,
+    });
+  };
+  useEffect(() => {
+    loadPreviousData();
+  }, [needForPayment]);
+
+
   return (
     <div className="container">
       <div className="content">
