@@ -2,6 +2,18 @@
 
 A full-stack web application for managing yoga class registrations and membership renewals.
 
+## 🔌 ER Diagram
+![Screenshot from 2025-02-04 01-29-50](https://github.com/user-attachments/assets/f53e36a9-f5c6-4c1d-9cb4-63a6d7a7d4bc)
+
+## 🌐 Live Links
+
+- **Full Website:** [Link1](https://flex-yoga-class-1.onrender.com)
+- **Web Service (API):** [Link2](https://flex-yoga-class.onrender.com)
+![Screenshot from 2025-02-03 20-19-02](https://github.com/user-attachments/assets/a3a2e122-4b4c-43f0-98d7-486737f89c56)
+![Screenshot from 2025-02-03 20-19-18](https://github.com/user-attachments/assets/cbc52033-168e-44af-8901-a8a13c30f2ed)
+![Screenshot from 2025-02-04 10-59-57](https://github.com/user-attachments/assets/af2a097d-e975-4f0a-a63e-8b38d2bf0518)
+
+
 ## 🚀 Tech Stack
 
 - **Frontend:** React.js
@@ -9,12 +21,7 @@ A full-stack web application for managing yoga class registrations and membershi
 - **Database:** SQLite (In-Memory)
 - **Containerization:** Docker
 - **Hosting:** Render
-
-## 🌐 Live Links
-
-- **Full Website:** [Link1](https://flex-yoga-class-1.onrender.com)
-- **Web Service (API):** [Link2](https://flex-yoga-class.onrender.com)
-
+- 
 ## 📌 Features
 
 - **New Member Registration**
