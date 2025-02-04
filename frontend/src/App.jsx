@@ -33,7 +33,7 @@ function App() {
     setIsLoadingRegister(true); // Start loading
     try {
       console.log("Registering user:", formData);
-      const response = await axios.post("http://127.0.0.1:8000/form/update", {
+      const response = await axios.post("https://flex-yoga-class.onrender.com/form/update", {
         ...formData,
         age: parseInt(formData.age),
       });
@@ -51,7 +51,7 @@ function App() {
     setIsLoadingCheck(true); // Start loading
     try {
       console.log("Checking membership for:", memberPhone);
-      const response = await axios.get(`http://127.0.0.1:8000/form/query?phone=${memberPhone}`);
+      const response = await axios.get(`https://flex-yoga-class.onrender.com/form/query?phone=${memberPhone}`);
       setResponseData(response.data);
       setShowResponse(true);
 
