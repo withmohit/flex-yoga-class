@@ -73,10 +73,6 @@ npm start
 | `POST` | `/form/update`                 | Register a new member or update membership   |
 | `GET`  | `/form/query?phone=1234567890` | Check member details & validity              |
 
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
 ---
 
 **🎯 Developed with ❤️ for Yoga Enthusiasts!**
