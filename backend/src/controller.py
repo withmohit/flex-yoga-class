@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 def update_status(data,db):
     db_member = db.query(User).filter(User.phone == data.phone).first()
     new_valid_till = (datetime.now() + timedelta(days=30)).date()
+    
     if db_member and db_member.valid_till < datetime.now().date():
         # Update existing member details
         db_member.name = data.name
@@ -17,17 +18,16 @@ def update_status(data,db):
         new_payment= Enrollment(
             phone = data.phone,
             batch_name = data.batch_name,
-            payment_status = "Success First Payment",
+            payment_status = "Success Payment",
             amount = 500
         )
         
         db.add(new_payment)
-
         db.commit()
         db.refresh(db_member)
         db.refresh(new_payment)
         response = {
-            "message": "Membership renewed successfully. Your membership is valid till " + new_valid_till.strftime("%Y-%m-%d")+"and payment of 500 is successful",
+            "message": "Membership renewed successfully. Your membership is valid till " + new_valid_till.strftime("%Y-%m-%d") + " and payment of 500 is successful",
         }
         return response
     
@@ -47,13 +47,11 @@ def update_status(data,db):
     new_payment= Enrollment(
            phone = data.phone,
            batch_name = data.batch_name,
-           payment_status = "Successful Payment",
+           payment_status = "Successful First Payment",
            amount = 750
     )
         
     db.add(new_payment)
-
-
     db.add(new_member)
     db.commit()
     db.refresh(new_member)

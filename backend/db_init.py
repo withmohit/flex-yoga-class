@@ -59,7 +59,6 @@ class Enrollment(Base):
     user: Mapped["User"] = relationship(back_populates="enrollments")
     batch: Mapped["Batch"] = relationship(back_populates="enrollments")
 
-    __table_args__ = (UniqueConstraint("phone", "batch_name", name="unique_user_batch"),)
 
 # ------------------ DATABASE INITIALIZATION ------------------
 
